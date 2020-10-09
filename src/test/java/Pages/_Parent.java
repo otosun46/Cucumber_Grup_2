@@ -8,6 +8,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
@@ -54,7 +55,7 @@ public class _Parent {
 
     public void verifyElementContainsText(WebElement element, String text) {
         wait.until(ExpectedConditions.textToBePresentInElement(element, text));
-        //   System.out.println(element.getText());
+        System.out.println(element.getText());
         Assert.assertTrue(element.getText().toLowerCase().contains(text.toLowerCase()));
     }
 
@@ -69,5 +70,11 @@ public class _Parent {
         } catch (InterruptedException ie) {
             ie.printStackTrace();
         }
+    }
+
+    public void selectMenu(WebElement menuName,String text){
+        System.out.println("Select menuye girdi");
+        Select menuSecim = new Select(menuName);
+        menuSecim.selectByIndex(1);
     }
 }

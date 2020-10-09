@@ -18,29 +18,60 @@ public class DialogContent extends _Parent {
         PageFactory.initElements(driver,this);
     }
 
-    @FindBy(id = "mat-input-0")
-    public WebElement username;
+    @FindBy(xpath = "//a[@class='login']")
+    public WebElement sigIn;
 
-    @FindBy(id = "mat-input-1")
+    @FindBy(id = "email")
+    public WebElement email;
+
+    @FindBy(id = "passwd")
     public WebElement password;
 
-    @FindBy(css="button[aria-label='LOGIN'")
+    @FindBy(xpath= "//a[@title='Contact us']")
+    public WebElement contactUs;
+
+    @FindBy(id="SubmitLogin")
     public WebElement loginButton;
 
-    @FindBy(linkText ="Got it!")
-    public WebElement gotItBtn;
+    @FindBy(id ="submitMessage")
+    public WebElement sendMesageButton;
 
     @FindBy(id = "cookieconsent")
     public WebElement cookieConsent;
 
+    @FindBy(xpath = "//div[@class='alert alert-danger']//li")
+    public WebElement mesageAlert;
+
+    @FindBy(id = "id_contact")
+    public WebElement mesageHeading;
+
+    @FindBy(xpath = "//select[@name='id_order']")
+    public WebElement orderReference;
+
+    @FindBy(id = "message")
+    public WebElement mesageArea;
+
+    @FindBy(xpath = "//p[@class='alert alert-success']")
+    public WebElement successMessage;
+
     public void findElementAndClickFunction(String element){
         switch (element){
+            case "sigIn":
+                myElement=sigIn;
+                break;
+
             case "loginButton":
                 myElement=loginButton;
                 break;
-            case "gotItBtn":
-                myElement=gotItBtn;
+            case "contactUs":
+                myElement=contactUs;
                 break;
+
+            case "sendMesageButton":
+                myElement=sendMesageButton;
+                break;
+
+
 
         }
         clickFunction(myElement);
@@ -48,11 +79,14 @@ public class DialogContent extends _Parent {
 
     public void findElementAndSendKeysFunction(String element,String value){
         switch (element){
-            case "username":
-                myElement=username;
+            case "email":
+                myElement=email;
                 break;
             case "password":
                 myElement=password;
+                break;
+            case "mesageArea":
+                myElement=mesageArea;
                 break;
         }
         sendKeysFunction(myElement,value);
@@ -60,17 +94,25 @@ public class DialogContent extends _Parent {
 
     public void findElementAndVerifyContainsText(String elementName, String msg){
         switch (elementName) {
-            case "msjContainer":
-//                myElement = msjContainer;
+            case "mesageAlert":
+                myElement=mesageAlert;
                 break;
 
-            case "errorMessage":
-//                myElement = errorMessage;
+            case "successMessage":
+                myElement = successMessage;
                 break;
         }
         verifyElementContainsText(myElement, msg);
     }
+    public void findElementAndSelectMenu(String elementName, String value){
+        switch (elementName) {
+            case "mesageHeading":
+                myElement=mesageHeading;
+                break;
 
+        }
+        selectMenu(myElement,value);
+    }
     public void editAndDeleteFunction(String countryName, String editOrDelete) {
         List<WebElement> btnList=new ArrayList<>();
         beklet(1000);
