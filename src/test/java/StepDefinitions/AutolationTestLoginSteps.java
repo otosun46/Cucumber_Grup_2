@@ -2,6 +2,7 @@ package StepDefinitions;
 
 import Pages.DialogContent;
 import Utilities.Driver;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -18,21 +19,22 @@ import java.util.concurrent.TimeUnit;
 public class AutolationTestLoginSteps {
     WebDriver driver;
     DialogContent dialogContent = new DialogContent();
+
     @Given("^Navigate to automationpractice$")
     public void navigateToAutomationpractice() {
         driver = Driver.getDriver();
-        driver.get(" http://automationpractice.com/");
+        driver.get("http://automationpractice.com/");
         driver.manage().window().maximize();
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-        driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     @When("^Enter username and password,  click Login button$")
     public void enterUsernameAndPasswordClickLoginButton() {
 
         dialogContent.findElementAndClickFunction("sigIn");
-        dialogContent.findElementAndSendKeysFunction("email","hasan.sahan@gmail.com");
-        dialogContent.findElementAndSendKeysFunction("password","grup246");
+        dialogContent.findElementAndSendKeysFunction("email", "hasan.sahan@gmail.com");
+        dialogContent.findElementAndSendKeysFunction("password", "grup246");
         dialogContent.findElementAndClickFunction("loginButton");
 
     }
@@ -57,22 +59,25 @@ public class AutolationTestLoginSteps {
 
     @Then("^Error message shuld be diplayed$")
     public void errorMessageShuldBeDiplayed() {
-        dialogContent.findElementAndVerifyContainsText("mesageAlert","message cannot");
+        dialogContent.findElementAndVerifyContainsText("mesageAlert", "message cannot");
 
-    }
-
-    @And("^Mesage steps select$")
-    public void mesageStepsSelect() {
-    dialogContent.findElementAndSelectMenu("mesageHeading","Webmaster");
-    }
-
-    @When("^Fill mesage$")
-    public void fillMesage() {
-        dialogContent.findElementAndSendKeysFunction("mesageArea","Grup 2 hala calisiyor.");
     }
 
     @And("^Send mesage successfull$")
     public void sendMesageSuccessfull() {
-        dialogContent.findElementAndVerifyContainsText("successMessage","successfull");
+        dialogContent.findElementAndVerifyContainsText("successMessage", "successfull");
+    }
+
+    @Then("^Fill in the message \"([^\"]*)\"$")
+    public void fillInTheMessage(String arg0) {
+        dialogContent.findElementAndSendKeysFunction("mesageArea", arg0);
+    }
+
+    @When("^Select message \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
+    public void selectMessageAndAnd(String arg0, String arg1, String arg2) {
+        dialogContent.findElementAndSelectMenu("mesageHeading", arg0);
+        dialogContent.findElementAndSelectMenu("orderReference", arg1);
+        if (!arg1.equals("0"))
+            dialogContent.findElementAndSelectMenu("pruduct", arg2);
     }
 }

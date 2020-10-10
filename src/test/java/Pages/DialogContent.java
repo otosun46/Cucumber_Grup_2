@@ -5,6 +5,7 @@ package Pages;
 
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -13,89 +14,129 @@ import java.util.List;
 
 public class DialogContent extends _Parent {
     WebElement myElement;
+    List<WebElement> myElementList;
 
     public DialogContent() {
-        PageFactory.initElements(driver,this);
+        PageFactory.initElements(driver, this);
     }
 
     @FindBy(xpath = "//a[@class='login']")
-    public WebElement sigIn;
+    private WebElement sigIn;
 
     @FindBy(id = "email")
-    public WebElement email;
+    private WebElement email;
 
     @FindBy(id = "passwd")
-    public WebElement password;
+    private WebElement password;
 
-    @FindBy(xpath= "//a[@title='Contact us']")
-    public WebElement contactUs;
+    @FindBy(xpath = "//a[@title='Contact us']")
+    private WebElement contactUs;
 
-    @FindBy(id="SubmitLogin")
-    public WebElement loginButton;
+    @FindBy(xpath = "//a[@title='Specials']")
+    private WebElement specials;
 
-    @FindBy(id ="submitMessage")
-    public WebElement sendMesageButton;
+    @FindBy(xpath = "//a[@title='My orders']")
+    private WebElement orders;
+
+    @FindBy(id = "SubmitLogin")
+    private WebElement loginButton;
+
+    @FindBy(id = "submitMessage")
+    private WebElement sendMesageButton;
 
     @FindBy(id = "cookieconsent")
-    public WebElement cookieConsent;
+    private WebElement cookieConsent;
 
     @FindBy(xpath = "//div[@class='alert alert-danger']//li")
-    public WebElement mesageAlert;
+    private WebElement mesageAlert;
 
     @FindBy(id = "id_contact")
-    public WebElement mesageHeading;
+    private WebElement mesageHeading;
 
     @FindBy(xpath = "//select[@name='id_order']")
-    public WebElement orderReference;
+    private WebElement orderReference;
+
+    @FindBy(xpath = "//select[@name='id_product']")
+    private WebElement pruduct;
 
     @FindBy(id = "message")
-    public WebElement mesageArea;
+    private WebElement mesageArea;
+
+
 
     @FindBy(xpath = "//p[@class='alert alert-success']")
-    public WebElement successMessage;
+    private WebElement successMessage;
 
-    public void findElementAndClickFunction(String element){
-        switch (element){
+    @FindAll({
+            @FindBy(xpath = "(//div[@id='order-detail-content']//following::label[2])[1]")
+    })
+    private List<WebElement> orderProductName;
+
+    @FindAll({
+            @FindBy(css = "ul[class='block_content products-block']>li")
+    })
+    private List<WebElement> products;
+
+    @FindAll({
+            @FindBy(css = "div[class='product-container']>div+div>div>span+span")
+    })
+    private List<WebElement> productsOfSale;
+
+    @FindAll({
+            @FindBy(css = "tbody>tr>td[class='history_link bold footable-first-column']")
+    })
+    private List<WebElement> orderReferens;
+
+    //span[class='discount']
+
+    public void findElementAndClickFunction(String element) {
+        switch (element) {
             case "sigIn":
-                myElement=sigIn;
+                myElement = sigIn;
                 break;
 
             case "loginButton":
-                myElement=loginButton;
+                myElement = loginButton;
                 break;
-            case "contactUs":
-                myElement=contactUs;
+            case "specials":
+                myElement = specials;
                 break;
 
             case "sendMesageButton":
-                myElement=sendMesageButton;
+                myElement = sendMesageButton;
                 break;
 
+            case "contactUs":
+                myElement = contactUs;
+                break;
+            case "orders":
+                myElement = orders;
+                break;
 
 
         }
         clickFunction(myElement);
     }
 
-    public void findElementAndSendKeysFunction(String element,String value){
-        switch (element){
+    public void findElementAndSendKeysFunction(String element, String value) {
+        switch (element) {
             case "email":
-                myElement=email;
+                myElement = email;
                 break;
             case "password":
-                myElement=password;
+                myElement = password;
                 break;
             case "mesageArea":
-                myElement=mesageArea;
+                myElement = mesageArea;
                 break;
         }
-        sendKeysFunction(myElement,value);
+        sendKeysFunction(myElement, value);
     }
 
-    public void findElementAndVerifyContainsText(String elementName, String msg){
+    public void findElementAndVerifyContainsText(String elementName, String msg) {
         switch (elementName) {
             case "mesageAlert":
-                myElement=mesageAlert;
+                myElement = mesageAlert;
                 break;
 
             case "successMessage":
@@ -104,17 +145,50 @@ public class DialogContent extends _Parent {
         }
         verifyElementContainsText(myElement, msg);
     }
-    public void findElementAndSelectMenu(String elementName, String value){
+
+    public void findElementAndSelectMenu(String elementName, String index) {
         switch (elementName) {
             case "mesageHeading":
-                myElement=mesageHeading;
+                myElement = mesageHeading;
+                break;
+
+            case "orderReference":
+                myElement = orderReference;
+                break;
+            case "pruduct":
+                myElement = pruduct;
                 break;
 
         }
-        selectMenu(myElement,value);
+        selectMenu(myElement,index);
     }
+
+    public void findElementListAndNumberOfLstOrPrintItemsOfList(String elementName, int numberOfItems) {
+        myElementList = new ArrayList<>();
+        switch (elementName) {
+            case "products":
+                myElementList = products;
+                break;
+            case "productsOfSale":
+                myElementList = productsOfSale;
+                break;
+            case "orderReferens":
+                myElementList = orderReferens;
+                break;
+            case "orderProductName":
+                myElementList = orderProductName;
+                break;
+        }
+        if (numberOfItems > 0)
+            verifyTheNumberOfItemsOnTheList(waitVisibleListAllElement(myElementList), numberOfItems);
+        else
+            printToList(myElementList);
+
+    }
+
+
     public void editAndDeleteFunction(String countryName, String editOrDelete) {
-        List<WebElement> btnList=new ArrayList<>();
+        List<WebElement> btnList = new ArrayList<>();
         beklet(1000);
         if (editOrDelete.equalsIgnoreCase("delete")) {
 //            btnList = waitVisibleListAllElement(deleteButtonList);
@@ -126,5 +200,5 @@ public class DialogContent extends _Parent {
 //            if (waitVisibleListAllElement(nameList).get(i).getText().equalsIgnoreCase(countryName)) {
 //                clickFunction(btnList.get(i));
 //            }
-        }
+    }
 }

@@ -72,9 +72,36 @@ public class _Parent {
         }
     }
 
-    public void selectMenu(WebElement menuName,String text){
-        System.out.println("Select menuye girdi");
+    public void selectMenu(WebElement menuName,String index){
+//        System.out.println("Select menuye girdi");
         Select menuSecim = new Select(menuName);
-        menuSecim.selectByIndex(1);
+        menuSecim.selectByIndex(Integer.parseInt(index));
+    }
+
+    public void verifyTheNumberOfItemsOnTheList(List<WebElement> elementList,int numberOfItems){
+        System.out.println("Number of items= "+elementList.size());
+        Assert.assertTrue(elementList.size()==numberOfItems);
+    }
+
+    public  void compareList(List<WebElement> webElmList, List<String> stringList) {
+        int i = 0;
+        for (WebElement e : webElmList) {
+            Assert.assertEquals(e.getText(), stringList.get(i++));
+            // System.out.println(e.getText());
+        }
+    }
+
+    public  void printToList(List<WebElement> webElmList) {
+        for (WebElement e : webElmList) {
+             System.out.println(e.getText());
+            System.out.println("------------------------------------------------------------");
+        }
+    }
+    public void clickToWebElementOfElementList(List<WebElement>elementList){
+        for (WebElement element:elementList) {
+            clickFunction(element);
+            System.out.println(element.getText());
+
+        }
     }
 }
