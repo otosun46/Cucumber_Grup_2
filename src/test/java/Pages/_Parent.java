@@ -30,6 +30,10 @@ public class _Parent {
 
     }
 
+    public void clickFunction(List<WebElement> elementList,int index) {
+        clickFunction(elementList.get(index));
+    }
+
     public void sendKeysFunction(WebElement element, String value) {
         waitUntilVisible(element);
         scrollToElement(element);

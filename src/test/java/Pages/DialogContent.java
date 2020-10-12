@@ -62,6 +62,10 @@ public class DialogContent extends _Parent {
     @FindBy(id = "message")
     private WebElement mesageArea;
 
+    @FindAll({
+            @FindBy(css = "td[class=bold]>[for]")
+    })
+    private List<WebElement> productNameList;
 
 
     @FindBy(xpath = "//p[@class='alert alert-success']")
@@ -118,6 +122,16 @@ public class DialogContent extends _Parent {
         clickFunction(myElement);
     }
 
+    public void findElementAndClickFunction(String elementList, int index) {
+        myElementList = new ArrayList<>();
+        switch (elementList) {
+            case "orderReferens":
+                myElementList = orderReferens;
+                break;
+        }
+        clickFunction(myElementList, index);
+    }
+
     public void findElementAndSendKeysFunction(String element, String value) {
         switch (element) {
             case "email":
@@ -160,7 +174,7 @@ public class DialogContent extends _Parent {
                 break;
 
         }
-        selectMenu(myElement,index);
+        selectMenu(myElement, index);
     }
 
     public void findElementListAndNumberOfLstOrPrintItemsOfList(String elementName, int numberOfItems) {
@@ -178,6 +192,9 @@ public class DialogContent extends _Parent {
             case "orderProductName":
                 myElementList = orderProductName;
                 break;
+            case "productNameList":
+                myElementList = productNameList;
+                break;
         }
         if (numberOfItems > 0)
             verifyTheNumberOfItemsOnTheList(waitVisibleListAllElement(myElementList), numberOfItems);
@@ -186,19 +203,29 @@ public class DialogContent extends _Parent {
 
     }
 
-
-    public void editAndDeleteFunction(String countryName, String editOrDelete) {
-        List<WebElement> btnList = new ArrayList<>();
-        beklet(1000);
-        if (editOrDelete.equalsIgnoreCase("delete")) {
-//            btnList = waitVisibleListAllElement(deleteButtonList);
+    public List<WebElement> findElementList(String elementList) {
+        myElementList = new ArrayList<>();
+        switch (elementList) {
+            case "orderReferens":
+                myElementList = orderReferens;
+                break;
         }
-//        else btnList= waitVisibleListAllElement(editButtonList);
+        return myElementList;
+    }
 
-//        for (int i = 0; i < waitVisibleListAllElement(nameList).size(); i++) {
-//            System.out.println(waitVisibleListAllElement(nameList).get(i).getText());
-//            if (waitVisibleListAllElement(nameList).get(i).getText().equalsIgnoreCase(countryName)) {
-//                clickFunction(btnList.get(i));
-//            }
+    public void findWebElementListAndClickEachOneElementWithForeachAndPrintOfList(String clickElementList, String printElementList) {
+
+        System.out.println("************************************************************");
+        System.out.println("List printing started");
+        int list = 1;
+        for (WebElement element : findElementList(clickElementList)) {
+            clickFunction(element);
+            beklet(2000);
+            System.out.println("List:" + list++);
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            findElementListAndNumberOfLstOrPrintItemsOfList(printElementList, 0);
+        }
+        System.out.println("List printing finished");
+        System.out.println("************************************************************");
     }
 }

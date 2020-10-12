@@ -9,8 +9,11 @@ Feature: Specials click and control
 
     Given Navigate to Order History
 
-    When Find the number of products on the page "orderReferens" and "2"
+    Then Order list "orderReferens"
 
-    Then List the name of the products on sale "orderReferens"
+    When On the order "orderReferens" list, verify that the order number is "3"
+
+    And Print the names of the products in the orders "orderReferens"
+
 
 
